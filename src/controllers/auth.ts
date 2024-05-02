@@ -14,10 +14,8 @@ export const userLoginController = async (req: Request, res: Response) => {
   if (!user) return res.status(400).json({ error: { message: "User not found" } });
 
   const passwordMatches = await bcryptjs.compare(password, user.password);
-  const salt = await bcryptjs.genSalt(10);
-  const hashedPassword = await bcryptjs.hash(password, salt);
-  console.log(hashedPassword, user.password);
-  console.log(hashedPassword == user.password);
+  console.log(password, user.password);
+  console.log(password == user.password);
   if (!passwordMatches) return res.status(400).json({ error: { message: "Invalid password" } });
 
   const token = jwt.sign({ _id: user._id, isAdmin: user.isAdmin }, `${process.env.JWT_SECRET}`);
@@ -37,7 +35,7 @@ export const userSignupController = async (req: Request, res: Response) => {
   const salt = await bcryptjs.genSalt(10);
   const hashedPassword = await bcryptjs.hash(password, salt);
 
-  const user = await User.create({ firstName, lastName, email, phoneNumber, password: hashedPassword, isAdmin });
+  const user = await User.create({ firstName, lastName, email, phoneNumber, password: password, isAdmin });
   user.save();
 
   res.status(201).json({ data: user });
