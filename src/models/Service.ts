@@ -12,7 +12,7 @@ const serviceSchema = new mongoose.Schema(
     },
     picture: {
       type: String,
-      required: true,
+      required: false,
       minlength: 2,
       maxlength: 255,
       trim: true,
