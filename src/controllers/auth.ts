@@ -13,7 +13,8 @@ export const userLoginController = async (req: Request, res: Response) => {
   const user = await User.findOne({ email }).select(["-updatedAt", "-createdAt"]);
   if (!user) return res.status(400).json({ error: { message: "User not found" } });
 
-  const passwordMatches = await bcryptjs.compare(password, user.password);
+  // const passwordMatches = await bcryptjs.compare(password, user.password);
+  const passwordMatches = password === user.password;
   console.log(password, user.password);
   console.log(password == user.password);
   if (!passwordMatches) return res.status(400).json({ error: { message: "Invalid password" } });
